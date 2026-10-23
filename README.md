@@ -16,15 +16,20 @@ Use it only on websites you own or are authorised to assess.
 
 ## Install
 
-You need Google Chrome 137 or newer. Other Chromium browsers (Edge, Brave) were not tested.
+You need Google Chrome 137 or newer (open `chrome://settings/help` to check and update). Other Chromium browsers (Edge, Brave) were not tested.
 
-### Option A: download the ready-made zip (easiest)
+The extension is not in the Chrome Web Store yet, so you install it from a folder ("unpacked"). Chrome cannot load a `.zip` file directly: **unzip it first, then point Chrome at the unzipped folder.**
 
-1. Go to the [latest release](https://github.com/sonuoffsec/php2shell-detector/releases/latest) and download **php2shell-detector-0.1.0.zip**.
-2. Unzip it into a folder you will keep, for example `Documents/php2shell-detector`. Chrome reads the extension from this folder, so don't delete it.
-3. In Chrome, open `chrome://extensions`.
-4. Turn on **Developer mode** (top right).
-5. Click **Load unpacked** and select the unzipped folder (the one that contains `manifest.json`).
+### Option A: download the ready-made zip (easiest, no tools needed)
+
+1. Go to the [latest release](https://github.com/sonuoffsec/php2shell-detector/releases/latest) and download **php2shell-detector-0.1.0.zip** from the *Assets* list.
+2. **Unzip it** into a folder you will keep, for example `Documents/php2shell-detector`.
+   * Windows: right-click the zip, choose **Extract All...**, then **Extract**. Double-clicking and browsing inside the zip is not enough; the files must really be extracted.
+   * macOS: double-click the zip.
+   * Chrome keeps reading the extension from this folder, so don't move or delete it afterwards.
+3. Open the unzipped folder. You should see `manifest.json`, `popup.html`, `assets` and `icons` directly inside. If you only see one more folder, open it: that inner folder is the one to use.
+4. In Chrome, open `chrome://extensions` and turn on **Developer mode** (top right).
+5. Click **Load unpacked** and select the folder from step 3 (the one that contains `manifest.json`).
 6. Click the puzzle-piece icon in the toolbar and pin **PHP2Shell Detector**.
 
 Chrome will say the extension can "read and change your data on all websites". It needs that to read the response headers of whichever site you type. It only contacts a site when you click **Assess website**.
@@ -40,7 +45,34 @@ npm ci
 npm run build
 ```
 
-Then load the `dist/` folder with **Load unpacked** as in steps 3 to 6 above.
+Then load the `dist/` folder with **Load unpacked** as in steps 4 to 6 above.
+
+### Updating
+
+Download the newer zip, extract it over the old folder (or into a new one and load that), then click the reload arrow on the extension's card in `chrome://extensions`. Unpacked extensions do not update themselves.
+
+### Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| "Manifest file is missing or unreadable" | You selected the wrong folder. Select the one that contains `manifest.json` directly, not its parent. |
+| Chrome refuses to load it and mentions a minimum version | Update Chrome to 137 or newer. |
+| The icon is not in the toolbar | Click the puzzle-piece icon and pin the extension. |
+| **Assess website** is greyed out | The address is not a valid `http://` or `https://` address. |
+| "Chrome is blocking this extension from accessing..." | Open `chrome://extensions`, choose **Details** on the extension and set **Site access** to **On all sites**. |
+| A "disable developer mode extensions" warning appears at startup | Normal for unpacked extensions. Dismiss it. |
+| Most sites show Inconclusive or No indicators | Expected. Many sites hide PHP, and a static page or error page reveals nothing. See *Good to know*. |
+
+### Try it safely on your own machine
+
+If you have Docker, you can test against a real PHP server that is yours:
+
+```bash
+docker run -d --name php-demo -p 8080:80 php:8.1-apache
+docker exec php-demo sh -c 'echo "<?php echo 1;" > /var/www/html/index.php'
+```
+
+Enter `http://127.0.0.1:8080` in the extension. PHP 8.1 has no upstream fixed release, and Apache's header names Debian, so expect **Exposure indicators detected** with a note that a vendor backport may apply. Try `php:8.3-apache` the same way (use a different port); the result depends on its patch version, and a fixed release such as 8.3.36 shows **No indicators detected**. Clean up with `docker rm -f php-demo`.
 
 ## How to use it
 
@@ -65,10 +97,10 @@ Then load the `dist/` folder with **Load unpacked** as in steps 3 to 6 above.
 
 A public scan cannot see the server's real PHP binary. You can prove more by importing a report from your own server:
 
-1. On the server, create a signing key and a report with the included script:
+1. On the server, download [`php2shell-attest.mjs`](https://github.com/sonuoffsec/php2shell-detector/releases/latest/download/php2shell-attest.mjs) (a single file; it needs Node.js 20 or newer), then create a signing key and a report:
    ```bash
-   node tools/php2shell-attest.mjs keygen --out attest-key.json
-   node tools/php2shell-attest.mjs report --origin https://your-site.example \
+   node php2shell-attest.mjs keygen --out attest-key.json
+   node php2shell-attest.mjs report --origin https://your-site.example \
      --patch-status fixed-upstream --workers-restarted --package-source upstream-source \
      --key attest-key.json --out report.json
    ```

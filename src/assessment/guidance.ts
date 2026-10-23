@@ -54,7 +54,7 @@ export function buildNextSteps(ctx: GuidanceContext): NextStep[] {
       id: 'owner-report',
       title: 'Upgrade this finding with owner-supplied evidence',
       detail:
-        'If you administer the site, generate a report with the companion CLI (`node tools/php2shell-attest.mjs`), sign it, add your key under Owner verification → Trusted keys, and import it. Only a signed report from a key you trust can reach “Patch verified”.',
+        'If you administer the site, download php2shell-attest.mjs from the project\'s GitHub Releases page, run `node php2shell-attest.mjs` on the server to create a signed report, add your key under Owner verification → Trusted keys, and import it. Only a signed report from a key you trust can reach “Patch verified”.',
     },
   ];
   return steps;

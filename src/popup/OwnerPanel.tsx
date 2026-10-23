@@ -41,8 +41,15 @@ export function OwnerPanel(p: OwnerPanelProps) {
       </p>
 
       <h3>1 · Generate a report (on the server)</h3>
-      <pre className="code">{`node tools/php2shell-attest.mjs keygen --out attest-key.json
-node tools/php2shell-attest.mjs report \\
+      <p className="muted">
+        Download <code>php2shell-attest.mjs</code> from the{' '}
+        <a href="https://github.com/sonuoffsec/php2shell-detector/releases/latest" target="_blank" rel="noopener noreferrer">
+          latest release
+        </a>{' '}
+        (needs Node.js 20 or newer), then run:
+      </p>
+      <pre className="code">{`node php2shell-attest.mjs keygen --out attest-key.json
+node php2shell-attest.mjs report \\
   --origin ${a?.target.requestedOrigin ?? 'https://example.com'} \\
   --patch-status fixed-upstream --workers-restarted \\
   --package-source upstream-source \\

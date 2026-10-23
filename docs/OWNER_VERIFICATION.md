@@ -44,9 +44,11 @@ The extension never says it inspected the server; the evidence card reads "self-
 
 ## Companion CLI
 
+`php2shell-attest.mjs` is a single file with no dependencies. Download it from the [latest release](https://github.com/sonuoffsec/php2shell-detector/releases/latest) (or find it at `tools/php2shell-attest.mjs` in the repository). It needs Node.js 20 or newer.
+
 ```bash
-node tools/php2shell-attest.mjs keygen --out attest-key.json         # prints the fingerprint to trust
-node tools/php2shell-attest.mjs report --origin https://example.com \
+node php2shell-attest.mjs keygen --out attest-key.json         # prints the fingerprint to trust
+node php2shell-attest.mjs report --origin https://example.com \
   --patch-status fixed-upstream --workers-restarted \
   --package-source upstream-source --key attest-key.json --out report.json
 ```
