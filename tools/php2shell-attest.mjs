@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /*
  * Companion CLI for site administrators.
  *
