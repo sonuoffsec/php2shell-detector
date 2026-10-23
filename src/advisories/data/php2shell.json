@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "dataset": {
+    "id": "php2shell-2026-10",
+    "lastVerifiedAt": "2026-10-23",
+    "maxAgeDays": 30,
+    "maintainerNote": "Hand-curated from primary sources on 2026-10-23, two days after disclosure. Re-verify against php.net and the GHSA pages before every release; advisory facts (especially end-of-life backports) may change."
+  },
+  "references": [
+    {
+      "id": "php-archive-2026",
+      "title": "PHP 2026 release archive / security announcement (2026-10-21)",
+      "url": "https://www.php.net/archive/2026.php",
+      "publisher": "The PHP Group",
+      "type": "release-archive",
+      "checkedAt": "2026-10-23",
+      "claims": [
+        "PHP 8.5.12, 8.4.27, 8.3.36 and 8.2.35 released 2026-10-21 fixing CVE-2026-109618 and CVE-2026-109619 (CVSS v4 9.2).",
+        "Updating is the only complete fix; memory_limit=-1 via php_admin_value, low post_max_size, session.upload_progress.enabled=0 and fatal_error_backtraces=0 (8.5) only reduce exposure.",
+        "PHP 8.1 and older receive no upstream releases, but the security team published source-only backports for 7.4, 8.0 and 8.1.",
+        "PHP 8.2 reaches end of life on 2026-12-31."
+      ]
+    },
+    {
+      "id": "ghsa-w8hw-w9fx-j79w",
+      "title": "GHSA-w8hw-w9fx-j79w (CVE-2026-109618)",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w",
+      "publisher": "php-src security advisories",
+      "type": "ghsa",
+      "checkedAt": "2026-10-23",
+      "claims": [
+        "Affected: versions before 8.2.35, 8.3.36, 8.4.27, 8.5.12. Published 2026-10-21.",
+        "Workarounds: memory_limit=-1 enforced administratively, conservative post_max_size, bounded multipart/input limits, restart every PHP worker after any change, avoid RLIMIT_AS/RLIMIT_DATA.",
+        "The advisory page does not mention 7.4, 8.0 or 8.1."
+      ]
+    },
+    {
+      "id": "ghsa-6wmf-4rv5-p3rp",
+      "title": "GHSA-6wmf-4rv5-p3rp (CVE-2026-109619)",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp",
+      "publisher": "php-src security advisories",
+      "type": "ghsa",
+      "checkedAt": "2026-10-23",
+      "claims": [
+        "Affected: versions before 8.2.35, 8.3.36, 8.4.27, 8.5.12. Published 2026-10-21, Critical, CVSS v4 9.2.",
+        "Workarounds: fatal_error_backtraces=0 (8.5), session.upload_progress.enabled=0, restart workers, consider pm.max_requests=1.",
+        "The advisory page does not mention 7.4, 8.0 or 8.1."
+      ]
+    },
+    {
+      "id": "gcp-php-response",
+      "title": "Responding to core PHP vulnerabilities CVE-2026-109618 and CVE-2026-109619",
+      "url": "https://cloud.google.com/blog/products/identity-security/responding-to-core-php-vulnerabilities-cve-2026-109618-cve-2026-109619",
+      "publisher": "Google Cloud",
+      "type": "cloud-guidance",
+      "checkedAt": "2026-10-23",
+      "claims": [
+        "States all PHP versions from 5.4 through 8.5.11 are vulnerable.",
+        "States PHP 8.1 and earlier will not be fixed upstream and must be upgraded to 8.2+ (conflicts with the php.net note about source-only backports).",
+        "WAF body-size limits and managed rules are compensating controls only; rebuild and redeploy images; restart long-running workers."
+      ]
+    },
+    {
+      "id": "wiz-php2shell",
+      "title": "PHP2Shell: critical PHP RCE research",
+      "url": "https://www.wiz.io/blog/php2shell-php-rce",
+      "publisher": "Wiz Research",
+      "type": "research",
+      "checkedAt": "2026-10-23",
+      "claims": [
+        "Third-party research context: memory-safety bugs in fatal-error / OOM handling; stale state reused across requests on the same worker.",
+        "Indicators: multipart requests followed by memory-limit errors, repeated HTTP 500s, oversized PHPSESSID cookies, unexplained worker churn.",
+        "Does not list fixed versions; used only as supporting context, not for detection rules."
+      ]
+    }
+  ],
+  "advisories": [
+    {
+      "id": "php2shell-2026-10",
+      "title": "PHP2Shell: unauthenticated RCE via fatal-error / out-of-memory state corruption",
+      "cves": [
+        {
+          "id": "CVE-2026-109618",
+          "ghsa": "GHSA-w8hw-w9fx-j79w",
+          "summary": "Out-of-memory handling can interrupt PHP while request data is partially initialised; request cleanup may treat the invalid data as valid."
+        },
+        {
+          "id": "CVE-2026-109619",
+          "ghsa": "GHSA-6wmf-4rv5-p3rp",
+          "summary": "Request-owned state can survive after its memory is freed, so a later request on the same worker may use stale state."
+        }
+      ],
+      "cvssV4": 9.2,
+      "severity": "critical",
+      "published": "2026-10-21",
+      "updated": "2026-10-22",
+      "scope": {
+        "supportedBranches": [
+          { "branch": "8.2", "fixedIn": "8.2.35" },
+          { "branch": "8.3", "fixedIn": "8.3.36" },
+          { "branch": "8.4", "fixedIn": "8.4.27" },
+          { "branch": "8.5", "fixedIn": "8.5.12" }
+        ],
+        "earliestAffectedBranch": "5.4",
+        "endOfLifeBranchesBelow": "8.2",
+        "notes": [
+          "Upstream GHSAs list affected ranges only for 8.2-8.5. Google Cloud states 5.4 through 8.5.11 are vulnerable.",
+          "PHP 8.2 is security-supported only until 2026-12-31."
+        ]
+      },
+      "vendorBackports": {
+        "possible": true,
+        "guidance": "Distribution packages (Debian, Ubuntu, RHEL and rebuilds, Alpine, SUSE, Amazon Linux, container base images) often keep the original version string and backport fixes. A version number alone cannot show whether a vendor fix is present; check the vendor's security tracker or package changelog for the two CVE IDs.",
+        "knownVendorAdvisories": []
+      },
+      "mitigations": [
+        {
+          "id": "memory-limit-unlimited",
+          "title": "memory_limit=-1 enforced administratively",
+          "detail": "Set via php_admin_value (not ini_set) and restart all workers. Described as the primary configuration mitigation; it is incomplete.",
+          "completeFix": false,
+          "sourceRefs": ["php-archive-2026", "ghsa-w8hw-w9fx-j79w"]
+        },
+        {
+          "id": "post-size-limit",
+          "title": "Conservative post_max_size and request-size limits at the front end",
+          "detail": "Limit decoded request size, multipart parts, headers and uploads at the web server / WAF.",
+          "completeFix": false,
+          "sourceRefs": ["ghsa-w8hw-w9fx-j79w", "gcp-php-response"]
+        },
+        {
+          "id": "upload-progress-disabled",
+          "title": "session.upload_progress.enabled=0",
+          "detail": "Set in php.ini or the FPM pool (not ini_set) and restart workers.",
+          "completeFix": false,
+          "sourceRefs": ["php-archive-2026", "ghsa-6wmf-4rv5-p3rp"]
+        },
+        {
+          "id": "fatal-error-backtraces-off",
+          "title": "fatal_error_backtraces=0 (PHP 8.5)",
+          "detail": "Removes the producer of the confirmed RCE case on 8.5 but not other stale-state paths.",
+          "completeFix": false,
+          "sourceRefs": ["php-archive-2026", "ghsa-6wmf-4rv5-p3rp"]
+        },
+        {
+          "id": "waf-body-limits",
+          "title": "WAF managed rules / request body limits",
+          "detail": "Risk reduction only. A WAF in front of the site does not show the PHP runtime is patched.",
+          "completeFix": false,
+          "sourceRefs": ["gcp-php-response"]
+        }
+      ],
+      "knownDiscrepancies": [
+        "php.net (2026-10-21) says the security team published source-only backports for PHP 7.4, 8.0 and 8.1; Google Cloud says 8.1 and earlier will not be patched upstream. Neither the php.net page nor the GHSAs list backport version numbers, so this tool treats those branches as unsupported and unverifiable from the public web.",
+        "The GHSAs enumerate affected ranges only for 8.2-8.5; the 5.4 lower bound comes from Google Cloud and Wiz, not from the upstream advisory."
+      ],
+      "limitations": [
+        "Public HTTP headers cannot show whether a vendor backport is installed.",
+        "Version headers can be stale, spoofed, stripped or come from a different node than the one serving a request.",
+        "A fixed version string does not prove all workers were restarted after patching.",
+        "This dataset covers only CVE-2026-109618 and CVE-2026-109619."
+      ],
+      "referenceIds": ["php-archive-2026", "ghsa-w8hw-w9fx-j79w", "ghsa-6wmf-4rv5-p3rp", "gcp-php-response", "wiz-php2shell"]
+    }
+  ]
+}

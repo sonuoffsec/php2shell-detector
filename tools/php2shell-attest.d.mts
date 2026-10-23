@@ -1,0 +1,20 @@
+export function canonicalize(value: unknown): string;
+export function generateKey(): { privateJwk: JsonWebKey; publicKey: string; keyId: string };
+export function signReport<T extends object>(report: T, keyFile: { privateJwk: JsonWebKey; publicKey: string; keyId: string }): T & { signature: unknown };
+export function buildReport(opts: {
+  origin: string;
+  phpVersion: string;
+  sapi?: string;
+  packageVersion?: string;
+  osName?: string;
+  osVersion?: string;
+  packageSourceType: string;
+  packageName?: string;
+  vendorAdvisory?: string;
+  patchStatus: string;
+  workersRestarted?: boolean;
+  mitigations?: string[];
+  collectedBy?: string;
+  commands?: string[];
+  now?: Date;
+}): Record<string, unknown>;

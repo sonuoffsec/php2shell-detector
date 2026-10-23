@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-e2e
+test-results
+playwright-report
+*.tsbuildinfo
+*.zip
+attest-key.json
+store/screenshots/*.png
