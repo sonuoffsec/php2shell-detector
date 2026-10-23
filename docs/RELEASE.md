@@ -43,7 +43,7 @@ The script zips `dist/` with forward-slash paths and `manifest.json` at the zip 
 
 ## 5. Privacy tab
 
-Copy answers from `docs/PRIVACY.md` (permission justifications, "no data collected", no remote code). Host the privacy policy at a stable HTTPS URL and link it; the policy and the Privacy tab must match.
+Copy answers from `docs/PRIVACY.md` (permission justifications, "no data collected", no remote code). Privacy policy URL for the listing: https://sonuoffsec.github.io/php2shell-detector/privacy-policy.html (GitHub Pages, branch `main`, folder `/docs`). The policy and the Privacy tab answers must match.
 
 ## 6. Policy self-review
 

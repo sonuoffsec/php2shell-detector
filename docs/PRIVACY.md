@@ -36,10 +36,13 @@ Never stored or exported: cookies, `Set-Cookie`, authorization headers, API keys
 
 Exported reports are created in the popup and saved by your browser; they are never uploaded by the extension. They contain the target origin, so handle them accordingly.
 
-## Draft privacy policy (publish at a stable URL before submission)
+## Privacy policy
 
-> **PHP2Shell Detector - Privacy Policy**
-> PHP2Shell Detector assesses whether a website you choose shows indicators of exposure to CVE-2026-109618/109619. All analysis runs locally in your browser. When you press "Assess website", the extension sends one standard HTTPS/HTTP GET request for the site's root page directly from your browser to that site, without cookies or credentials, and reads only the response headers. We (the developer) operate no servers and receive no data: no analytics, telemetry, accounts or advertising. The extension stores, on your device only, your settings, the signing-key fingerprints you choose to trust and - if you turn it on - a short history of assessed origins and results. You can delete this data at any time inside the extension. We do not sell or transfer user data. Contact: *(add maintainer contact)*.
+The store-facing policy is [`docs/privacy-policy.html`](privacy-policy.html), published with GitHub Pages at:
+
+https://sonuoffsec.github.io/php2shell-detector/privacy-policy.html
+
+Keep it in sync with this document. Contact is the repository's issue tracker, so no personal email is published.
 
 ## Chrome Web Store "Privacy practices" tab - suggested answers
 

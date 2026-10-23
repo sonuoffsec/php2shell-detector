@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PHP2Shell Detector - Privacy Policy</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #0f1218; color: #e6e9f0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { font-size: 28px; margin-bottom: 4px; }
+    h2 { font-size: 18px; margin-top: 32px; color: #22d3ee; }
+    a { color: #67e8f9; }
+    code { background: #1e2430; padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+    .muted { color: #9aa3b5; }
+    li { margin: 6px 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>PHP2Shell Detector - Privacy Policy</h1>
+  <p class="muted">Last updated: 23 October 2026</p>
+
+  <p>PHP2Shell Detector is a Chrome extension that checks whether a website you choose shows indicators of exposure to CVE-2026-109618 and CVE-2026-109619. All analysis runs locally in your browser. The developer operates no servers and receives no data from the extension.</p>
+
+  <h2>What the extension does with the network</h2>
+  <ul>
+    <li>When you click <strong>Assess website</strong>, the extension sends one standard GET request for the root page (<code>/</code>) of the site you entered, directly from your browser to that site.</li>
+    <li>The request carries no cookies, no credentials, no custom headers and no referrer. The page path and query string are not sent. The response body is not read; only the response headers are examined.</li>
+    <li>The extension never contacts any site on its own, in the background, or for pages you merely visit.</li>
+    <li>The extension has no analytics, telemetry, crash reporting, advertising or update-check requests, and no backend.</li>
+  </ul>
+
+  <h2>Data the extension handles</h2>
+  <ul>
+    <li><strong>The URL you assess, and a small allowlist of response headers</strong> (for example <code>Server</code> and <code>X-Powered-By</code>), are kept in memory while the popup is open and are discarded when it closes. Cookies and authorization values are never stored or exported.</li>
+    <li><strong>Stored on your device only</strong> (<code>chrome.storage.local</code>): your settings, the signing-key fingerprints you choose to trust, and, only if you turn it on, a short history of assessed origins, results and times. You can delete all of this inside the extension at any time.</li>
+    <li><strong>Reports you export</strong> are created in the popup and saved by your browser. They are never uploaded by the extension and contain the origin you assessed.</li>
+    <li><strong>The active tab's URL</strong> is read only when you open the popup, to prefill the address box. Your browsing history is never read.</li>
+  </ul>
+
+  <h2>Permissions</h2>
+  <ul>
+    <li><code>activeTab</code>: read the current tab's URL when you open the popup.</li>
+    <li><code>storage</code>: save the local settings described above.</li>
+    <li>Access to <code>http://*/*</code> and <code>https://*/*</code>: lets the popup read the response headers of whichever site you choose without a prompt per site. It is used only when you click Assess.</li>
+  </ul>
+
+  <h2>Sharing and selling</h2>
+  <p>We do not sell or transfer user data to third parties, do not use it for purposes unrelated to the extension's single purpose, and do not use it to determine creditworthiness or for lending.</p>
+
+  <h2>Children</h2>
+  <p>The extension is a developer and security tool and is not directed at children.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be published at this address with an updated date.</p>
+
+  <h2>Contact</h2>
+  <p>Questions or concerns: open an issue at <a href="https://github.com/sonuoffsec/php2shell-detector/issues">github.com/sonuoffsec/php2shell-detector/issues</a>.</p>
+</main>
+</body>
+</html>
