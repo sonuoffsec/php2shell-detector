@@ -20,7 +20,7 @@ Load `dist/` unpacked in a normal Chrome profile and confirm:
 - [ ] Exports download; open them and grep for cookies/tokens (none).
 - [ ] Settings → "Delete all locally stored data" clears trusted keys/history.
 - [ ] Chrome ≥ 137 verifies a CLI-signed report; an older Chrome shows "unverifiable".
-- [ ] Test against a **real** PHP stack you own (mod_php, FPM, a distro package) and record the observed headers vs. verdict.
+- [ ] mod_php was checked against the official Docker images (see docs/METHODOLOGY.md). Still to test against a real stack you own: PHP-FPM behind nginx, a Debian/Ubuntu/RHEL package, and a site behind a CDN. Record the observed headers vs. verdict.
 
 ## 3. Package
 

@@ -105,7 +105,7 @@ Run and passing when this was written (2026-10-23, Windows 11, Node 24, Chromium
 **Not** verified automatically - needs a human before publishing (see `docs/RELEASE.md` manual checklist):
 
 * The real toolbar-popup flow (`activeTab` URL prefill, Chrome's install-time permission warning): automation loads the extension but cannot click the toolbar icon.
-* Behaviour against real PHP deployments (mod_php/FPM/distro packages); all fixtures are synthetic.
+* Real PHP was checked only with the official `php:8.3-apache` and `php:8.1-apache` Docker images (results in [docs/METHODOLOGY.md](docs/METHODOLOGY.md)). PHP-FPM behind nginx, distribution packages and CDN-fronted sites are covered only by synthetic fixtures.
 * Whether the vendor/distro backport status for any specific package is fixed - the dataset intentionally contains none.
 * Chrome Web Store submission and listing assets. The privacy policy is at https://sonuoffsec.github.io/php2shell-detector/privacy-policy.html once GitHub Pages is enabled for `main` and `/docs`.
 * The confidence label is qualitative and uncalibrated.

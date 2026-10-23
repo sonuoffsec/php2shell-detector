@@ -74,6 +74,25 @@ See `docs/RESEARCH.md` and `src/advisories/data/php2shell.json`.
 | Branches 5.4–8.1 affected / unfixed upstream | Google Cloud, Wiz (not the GHSAs) | 2026-10-23 | same | Third-party scope; php.net mentions source-only backports without versions |
 | Mitigations (partial) | php.net archive, GHSAs, Google Cloud | 2026-10-23 | same | Reduce risk only |
 
+## Validation against real PHP
+
+Run on 2026-10-23 with the built extension (Chromium, `dist-e2e`) against the official Docker images `php:8.3-apache` and `php:8.1-apache`. The real `PHP_VERSION` inside each container was read with `php -r` and compared with what the extension reported.
+
+| Container | Real `PHP_VERSION` | Headers seen on `/` | Result | Rule |
+|---|---|---|---|---|
+| `php:8.3-apache`, no PHP page at `/` | 8.3.36 | `Server: Apache/2.4.69 (Debian)`, HTTP 403 | Inconclusive | R17 |
+| `php:8.1-apache`, no PHP page at `/` | 8.1.34 | `Server: Apache/2.4.65 (Debian)`, HTTP 403 | Inconclusive | R17 |
+| `php:8.3-apache`, PHP page at `/` | 8.3.36 | adds `X-Powered-By: PHP/8.3.36` | No indicators detected | R14 |
+| `php:8.1-apache`, PHP page at `/` | 8.1.34 | adds `X-Powered-By: PHP/8.1.34` | Exposure indicators detected | R11 |
+
+What this showed:
+
+* `X-Powered-By` is only sent when a PHP script actually runs. A site whose `/` is a static page, a redirect or an error does not reveal PHP even when PHP is installed. The extension reports Inconclusive for that case, not "safe".
+* The disclosed versions matched the real ones, so the version parsing and the 8.3.36 fixed-release boundary work on real output.
+* R11 is conservative here. The official image builds PHP from source, so no Debian backport exists, but the `(Debian)` text in Apache's `Server` header looks the same as a Debian-packaged PHP. The tool cannot tell the two apart from outside, so it says "indicators, a backport may apply" instead of "potentially exposed". Treat that result as "verify with the host", which is what the next steps say.
+
+Not covered: PHP-FPM behind nginx, distribution packages (Debian, Ubuntu, RHEL) with their real version strings, and sites behind a CDN. Those are still checked only with synthetic fixtures.
+
 ## Known limitations and failure modes
 
 * **False negatives**: PHP with `expose_php=Off` and no app headers → "No indicators detected" although PHP runs. A CDN that strips headers → Inconclusive at best. A site where `/` is served by a static frontend but `/app/` runs PHP.
