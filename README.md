@@ -111,3 +111,7 @@ Run and passing when this was written (2026-10-23, Windows 11, Node 24, Chromium
 * The confidence label is qualitative and uncalibrated.
 
 Advisory data was checked on 2026-10-23 and goes stale after 30 days; re-verify before each release.
+
+## Licence
+
+MIT. See [LICENSE](LICENSE). The logo in `logo/` is a separate asset; see the branding note in docs/RELEASE.md before reusing it.
